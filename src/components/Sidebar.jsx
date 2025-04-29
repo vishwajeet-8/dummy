@@ -28,9 +28,9 @@ const Sidebar = () => {
     },
     {
       id: 3,
-      title: "Data Agents Screen",
+      title: "Data Agents",
       icon: <Users size={18} />,
-      url: "/data-agents-screen",
+      url: "/data-agents",
     },
     {
       id: 4,

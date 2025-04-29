@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Info,
   RefreshCw,
@@ -10,7 +11,9 @@ import {
   MoreHorizontal,
 } from "lucide-react";
 
-const DataAgentsScreen = () => {
+const DataAgents = () => {
+  const navigate = useNavigate();
+
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -64,23 +67,30 @@ const DataAgentsScreen = () => {
     }
   };
 
+  const handleClick = () => {
+    navigate("/agents-chatbot");
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-sm p-6 mx-auto h-full">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
         <div className="flex items-center mb-4 sm:mb-0">
-          <h1 className="text-xl font-medium text-gray-800">
+          <h1 className="text-xl font-bold text-gray-800">
             Upload or Configure Source Documents
           </h1>
           <Info size={18} className="ml-2 text-gray-400" />
         </div>
         <div className="flex space-x-2">
-          <button className="flex items-center bg-gray-50 hover:bg-gray-100 text-gray-700 px-4 py-2 rounded border border-gray-200 transition-colors">
+          <button className="flex items-center bg-gray-50 hover:bg-gray-100 text-gray-700 px-4 py-2 rounded border border-gray-200 transition-colors font-semibold">
             <RefreshCw size={16} className="mr-2" />
             <span>Synchronize Documents</span>
           </button>
-          <button className="flex items-center bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded transition-colors">
-            <span>Data Agents</span>
+          <button
+            onClick={handleClick}
+            className="flex items-center bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded transition-colors font-medium"
+          >
+            <span>New Agents</span>
           </button>
         </div>
       </div>
@@ -94,7 +104,7 @@ const DataAgentsScreen = () => {
             className="w-full px-3 py-2 border border-gray-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-100"
           />
         </div>
-        <button className="bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-50 transition-colors">
+        <button className="bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-50 transition-colors font-medium">
           Columns
         </button>
       </div>
@@ -157,7 +167,7 @@ const DataAgentsScreen = () => {
       </div>
 
       {/* Pagination */}
-      <div className="flex flex-col sm:flex-row items-center justify-between mt-4 text-sm text-gray-600">
+      <div className="flex flex-col sm:flex-row items-center justify-between mt-4 text-sm text-gray-600 font-medium">
         <div className="mb-4 sm:mb-0">
           <span>
             {selectedRows.length} of {files.length} row(s) selected.
@@ -199,4 +209,4 @@ const DataAgentsScreen = () => {
   );
 };
 
-export default DataAgentsScreen;
+export default DataAgents;
