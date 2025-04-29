@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Info,
   FileText,
@@ -19,6 +20,8 @@ const WorkflowResults = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [showUnderHood, setShowUnderHood] = useState(false);
 
+  const navigate = useNavigate();
+
   // Sample data to match the image
   const agentData = [
     {
@@ -29,6 +32,72 @@ const WorkflowResults = () => {
         consistent: 18,
         inconsistent: 2,
         missing: 28,
+      },
+      status: "Processed",
+    },
+    {
+      id: 2,
+      name: "Energy Consumption by Source",
+      extractions: 48,
+      consistency: {
+        consistent: 23,
+        inconsistent: 0,
+        missing: 25,
+      },
+      status: "Processed",
+    },
+    {
+      id: 2,
+      name: "Energy Consumption by Source",
+      extractions: 48,
+      consistency: {
+        consistent: 23,
+        inconsistent: 0,
+        missing: 25,
+      },
+      status: "Processed",
+    },
+    {
+      id: 2,
+      name: "Energy Consumption by Source",
+      extractions: 48,
+      consistency: {
+        consistent: 23,
+        inconsistent: 0,
+        missing: 25,
+      },
+      status: "Processed",
+    },
+    {
+      id: 2,
+      name: "Energy Consumption by Source",
+      extractions: 48,
+      consistency: {
+        consistent: 23,
+        inconsistent: 0,
+        missing: 25,
+      },
+      status: "Processed",
+    },
+    {
+      id: 2,
+      name: "Energy Consumption by Source",
+      extractions: 48,
+      consistency: {
+        consistent: 23,
+        inconsistent: 0,
+        missing: 25,
+      },
+      status: "Processed",
+    },
+    {
+      id: 2,
+      name: "Energy Consumption by Source",
+      extractions: 48,
+      consistency: {
+        consistent: 23,
+        inconsistent: 0,
+        missing: 25,
       },
       status: "Processed",
     },
@@ -83,7 +152,7 @@ const WorkflowResults = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6 mx-auto h-full">
+    <div className="bg-white rounded-lg shadow-sm p-6 mx-auto h-full flex flex-col justify-around">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
         <div className="flex items-center mb-4 sm:mb-0">
@@ -239,10 +308,13 @@ const WorkflowResults = () => {
       </div>
 
       {/* Look under the hood section */}
-      <div className="mt-6 border-t border-gray-200 pt-4 text-center">
+      <div className="mt-6 pt-4 text-center">
         <button
-          className="flex items-center mx-auto text-gray-600 hover:text-gray-800"
-          onClick={() => setShowUnderHood(!showUnderHood)}
+          className="flex items-center mx-auto text-gray-600 hover:text-gray-800 cursor-pointer"
+          onClick={() => {
+            setShowUnderHood(!showUnderHood);
+            navigate("/agents-chatbot");
+          }}
         >
           <span>Look under the hood</span>
           <ChevronDown size={16} className="ml-1" />

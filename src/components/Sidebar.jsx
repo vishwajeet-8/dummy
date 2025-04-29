@@ -73,7 +73,7 @@ const Sidebar = () => {
           ${isSidebarOpen ? "md:w-60" : "md:w-16"} 
           w-60 p-4
           md:translate-x-0 md:static
-          h-full min-h-screen
+          min-h-screen
         `}
       >
         {/* Toggle button for expanded/collapsed sidebar - only visible on desktop */}
