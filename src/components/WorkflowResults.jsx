@@ -137,7 +137,7 @@ const WorkflowResults = () => {
       <div className="w-full bg-gray-200 rounded-full h-2">
         <div className="flex rounded-full h-full overflow-hidden">
           <div
-            className="bg-green-400"
+            className="bg-[#93AE7A]"
             style={{ width: `${consistentWidth}%` }}
           />
           {inconsistent > 0 && (
@@ -222,7 +222,12 @@ const WorkflowResults = () => {
                 checked={selectedRows.includes(agent.id)}
                 onChange={() => toggleRowSelection(agent.id)}
               />
-              <span className="font-medium">{agent.name}</span>
+              <span
+                className="font-medium cursor-pointer"
+                onClick={() => navigate("/workflow-data")}
+              >
+                {agent.name}
+              </span>
             </div>
             <div className="col-span-2 md:col-span-2 flex items-center justify-center">
               {agent.extractions}
@@ -236,7 +241,7 @@ const WorkflowResults = () => {
                 )}
               </div>
               <div className="text-xs text-gray-500">
-                <span className="text-green-600">
+                <span className="text-[#93AE7A]">
                   {agent.consistency.consistent} consistent
                 </span>
                 {agent.consistency.inconsistent > 0 && (
@@ -308,7 +313,7 @@ const WorkflowResults = () => {
       </div>
 
       {/* Look under the hood section */}
-      <div className="mt-6 pt-4 text-center">
+      {/* <div className="mt-6 pt-4 text-center">
         <button
           className="flex items-center mx-auto text-gray-600 hover:text-gray-800 cursor-pointer"
           onClick={() => {
@@ -319,7 +324,7 @@ const WorkflowResults = () => {
           <span>Look under the hood</span>
           <ChevronDown size={16} className="ml-1" />
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
