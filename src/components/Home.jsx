@@ -18,6 +18,10 @@ import {
   HardDrive,
   BarChart2,
   X,
+  ArrowLeft,
+  MoveRight,
+  AlignRight,
+  ArrowRight,
 } from "lucide-react";
 
 {
@@ -369,25 +373,25 @@ const Home = () => {
             <nav className="space-y-1">
               <a
                 href="/"
-                className="block px-4 py-3 rounded bg-gray-100 text-gray-800 font-medium flex items-center"
+                className="px-4 py-3 rounded bg-gray-100 text-gray-800 font-medium flex items-center"
               >
                 <HomeIcon size={18} className="mr-3 text-gray-600" /> Home
               </a>
               <a
                 href="/source-data"
-                className="block px-4 py-3 rounded text-gray-600 hover:bg-gray-100 flex items-center"
+                className="px-4 py-3 rounded text-gray-600 hover:bg-gray-100 flex items-center"
               >
                 <Database size={18} className="mr-3" /> Source Data
               </a>
               <a
                 href="/agents"
-                className="block px-4 py-3 rounded text-gray-600 hover:bg-gray-100 flex items-center"
+                className="px-4 py-3 rounded text-gray-600 hover:bg-gray-100 flex items-center"
               >
                 <Bot size={18} className="mr-3" /> Data Agents
               </a>
               <a
                 href="/results"
-                className="block px-4 py-3 rounded text-gray-600 hover:bg-gray-100 flex items-center"
+                className="px-4 py-3 rounded text-gray-600 hover:bg-gray-100 flex items-center"
               >
                 <Activity size={18} className="mr-3" /> Results
               </a>
@@ -413,9 +417,6 @@ const Home = () => {
         {/* Onboarding Checklist */}
         {showOnboarding && (
           <div className="bg-gradient-to-br from-white to-blue-50 backdrop-blur-sm shadow-lg rounded-xl p-4 mb-6 border border-blue-100 overflow-hidden relative">
-            <div className="absolute top-0 left-0 w-32 h-32 bg-blue-500 opacity-5 rounded-full -ml-10 -mt-10"></div>
-            <div className="absolute bottom-0 right-0 w-32 h-32 bg-indigo-500 opacity-5 rounded-full -mr-10 -mb-10"></div>
-
             <div className="flex justify-between items-center mb-3 relative z-10">
               <h2 className="text-base sm:text-lg font-semibold text-gray-800 flex items-center">
                 <div className="w-1 h-6 bg-blue-500 rounded-sm mr-3"></div>
@@ -529,7 +530,6 @@ const Home = () => {
         {/* KPI Cards Row */}
         <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-4 md:mb-6">
           <div className="bg-gradient-to-br from-white to-gray-50 backdrop-blur-sm shadow-lg rounded-xl p-4 hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100 relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500 opacity-5 rounded-full -mr-8 -mt-8 group-hover:scale-110 transition-transform duration-500"></div>
             <div className="flex items-center mb-2">
               <div className="w-1.5 h-8 rounded-sm bg-blue-500 mr-3"></div>
               <h3 className="text-xs sm:text-sm font-medium text-gray-600">
@@ -550,25 +550,12 @@ const Home = () => {
                 className="inline-flex items-center text-xs font-medium text-blue-600 hover:text-blue-700 transition-colors group/link"
               >
                 View details
-                <svg
-                  className="ml-1 w-4 h-4 transform group-hover/link:translate-x-1 transition-transform"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
+                <ArrowRight className="ml-3" />
               </a>
             </div>
           </div>
 
           <div className="bg-gradient-to-br from-white to-gray-50 backdrop-blur-sm shadow-lg rounded-xl p-4 hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100 relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-green-500 opacity-5 rounded-full -mr-8 -mt-8 group-hover:scale-110 transition-transform duration-500"></div>
             <div className="flex items-center mb-2">
               <div className="w-1.5 h-8 rounded-sm bg-green-500 mr-3"></div>
               <h3 className="text-xs sm:text-sm font-medium text-gray-600">
@@ -589,25 +576,12 @@ const Home = () => {
                 className="inline-flex items-center text-xs font-medium text-green-600 hover:text-green-700 transition-colors group/link"
               >
                 View details
-                <svg
-                  className="ml-1 w-4 h-4 transform group-hover/link:translate-x-1 transition-transform"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
+                <ArrowRight className="ml-3" />
               </a>
             </div>
           </div>
 
           <div className="bg-gradient-to-br from-white to-gray-50 backdrop-blur-sm shadow-lg rounded-xl p-4 hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100 relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-yellow-500 opacity-5 rounded-full -mr-8 -mt-8 group-hover:scale-110 transition-transform duration-500"></div>
             <div className="flex items-center mb-2">
               <div className="w-1.5 h-8 rounded-sm bg-yellow-500 mr-3"></div>
               <h3 className="text-xs sm:text-sm font-medium text-gray-600">
@@ -628,25 +602,12 @@ const Home = () => {
                 className="inline-flex items-center text-xs font-medium text-yellow-600 hover:text-yellow-700 transition-colors group/link"
               >
                 View details
-                <svg
-                  className="ml-1 w-4 h-4 transform group-hover/link:translate-x-1 transition-transform"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
+                <ArrowRight className="ml-3" />
               </a>
             </div>
           </div>
 
           <div className="bg-gradient-to-br from-white to-gray-50 backdrop-blur-sm shadow-lg rounded-xl p-4 hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100 relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500 opacity-5 rounded-full -mr-8 -mt-8 group-hover:scale-110 transition-transform duration-500"></div>
             <div className="flex items-center mb-2">
               <div className="w-1.5 h-8 rounded-sm bg-purple-500 mr-3"></div>
               <h3 className="text-xs sm:text-sm font-medium text-gray-600">
@@ -667,19 +628,7 @@ const Home = () => {
                 className="inline-flex items-center text-xs font-medium text-purple-600 hover:text-purple-700 transition-colors group/link"
               >
                 View details
-                <svg
-                  className="ml-1 w-4 h-4 transform group-hover/link:translate-x-1 transition-transform"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
+                <ArrowRight className="ml-3" />
               </a>
             </div>
           </div>
@@ -735,7 +684,7 @@ const Home = () => {
               <div className="flex flex-wrap gap-2 sm:space-y-2 lg:space-y-0 lg:block">
                 <a
                   href="/connectors/new"
-                  className="flex-1 min-w-0 lg:w-full text-left px-3 sm:px-4 py-2 bg-white border border-gray-200 rounded-lg hover:border-blue-200 hover:bg-blue-50 text-xs sm:text-sm flex items-center shadow-sm transition-all duration-200 ease-in-out"
+                  className="flex-1 min-w-0 lg:w-full text-left px-3 sm:px-4 py-2 bg-white border border-gray-200 rounded-lg hover:border-blue-200 hover:bg-blue-50 text-xs sm:text-sm flex items-center shadow-sm transition-all duration-200 ease-in-out mb-5"
                 >
                   <Plus
                     size={14}
@@ -745,7 +694,7 @@ const Home = () => {
                 </a>
                 <a
                   href="/agents/new"
-                  className="flex-1 min-w-0 lg:w-full text-left px-3 sm:px-4 py-2 bg-white border border-gray-200 rounded-lg hover:border-blue-200 hover:bg-blue-50 text-xs sm:text-sm flex items-center shadow-sm transition-all duration-200 ease-in-out"
+                  className="flex-1 min-w-0 lg:w-full text-left px-3 sm:px-4 py-2 bg-white border border-gray-200 rounded-lg hover:border-blue-200 hover:bg-blue-50 text-xs sm:text-sm flex items-center shadow-sm transition-all duration-200 ease-in-out mb-5"
                 >
                   <Bot
                     size={14}

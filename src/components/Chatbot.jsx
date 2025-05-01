@@ -1,317 +1,3 @@
-// import {
-//   MoveLeft,
-//   Paperclip,
-//   SendIcon,
-//   Sparkles,
-//   Share2,
-//   Zap,
-//   MoreHorizontal,
-//   Brain,
-// } from "lucide-react";
-// import { useState, useRef, useEffect } from "react";
-// import { useNavigate, useLocation } from "react-router-dom";
-
-// function Chatbot() {
-//   const navigate = useNavigate();
-//   const location = useLocation();
-//   const [messages, setMessages] = useState([
-//     {
-//       role: "assistant",
-//       content:
-//         "Hello! I'm your AI assistant for data analysis. How can I help you today?",
-//       timestamp: new Date().toLocaleTimeString([], {
-//         hour: "2-digit",
-//         minute: "2-digit",
-//       }),
-//     },
-//   ]);
-//   const [input, setInput] = useState("");
-//   const [isLoading, setIsLoading] = useState(false);
-//   const [isAnimating, setIsAnimating] = useState(false);
-//   const [isThinking, setIsThinking] = useState(false);
-//   const messagesEndRef = useRef(null);
-//   const inputRef = useRef(null);
-//   const chatContainerRef = useRef(null);
-
-//   // Check if we should animate the entry
-//   useEffect(() => {
-//     const shouldAnimate = location.state?.animateEntry === true;
-//     if (shouldAnimate) {
-//       setIsAnimating(true);
-//       const timer = setTimeout(() => {
-//         setIsAnimating(false);
-//       }, 800);
-//       return () => clearTimeout(timer);
-//     }
-//   }, [location]);
-
-//   // Auto-scroll to bottom when messages update
-//   useEffect(() => {
-//     scrollToBottom();
-//   }, [messages]);
-
-//   // Focus the input field when component mounts
-//   useEffect(() => {
-//     inputRef.current.focus();
-//   }, []);
-
-//   const scrollToBottom = () => {
-//     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-//   };
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     if (input.trim() === "") return;
-
-//     // Add user message with timestamp
-//     const userMessage = {
-//       role: "user",
-//       content: input,
-//       timestamp: new Date().toLocaleTimeString([], {
-//         hour: "2-digit",
-//         minute: "2-digit",
-//       }),
-//     };
-//     setMessages((prev) => [...prev, userMessage]);
-//     setInput("");
-//     setIsLoading(true);
-//     setIsThinking(true);
-
-//     // Simulate API "thinking" delay
-//     setTimeout(() => {
-//       setIsThinking(false);
-//     }, 800);
-
-//     // Simulate API response delay
-//     setTimeout(() => {
-//       // Add bot response
-//       const responses = [
-//         "I've analyzed the data from your documents. Would you like me to show you the key insights?",
-//         "Based on the financial reports you've uploaded, I can see some interesting trends. Let me explain.",
-//         "I've processed the annual reports. The data suggests a significant growth in the second quarter.",
-//         "Looking at your documents, I can identify several patterns that might be relevant for your analysis.",
-//         "After examining the PDFs you provided, I've extracted some important metrics that you should know about.",
-//         "The data from your reports shows some notable changes compared to last year. Would you like me to highlight the differences?",
-//       ];
-//       const randomResponse =
-//         responses[Math.floor(Math.random() * responses.length)];
-//       setMessages((prev) => [
-//         ...prev,
-//         {
-//           role: "assistant",
-//           content: randomResponse,
-//           timestamp: new Date().toLocaleTimeString([], {
-//             hour: "2-digit",
-//             minute: "2-digit",
-//           }),
-//         },
-//       ]);
-//       setIsLoading(false);
-//     }, 2000);
-//   };
-
-//   const handleClick = () => {
-//     navigate("/data-agents");
-//   };
-
-//   // List of example conversation starters
-//   const conversationStarters = [
-//     "Analyze the trends in our quarterly reports",
-//     "Compare this year's performance with last year",
-//     "Show me key metrics from the annual report",
-//     "Extract financial data from these PDFs",
-//     "Identify growth patterns across all documents",
-//   ];
-
-//   return (
-//     <div>
-//       <div
-//         className={`flex flex-col h-screen bg-slate-50 rounded-lg shadow-lg p-0 mx-auto overflow-hidden ${
-//           isAnimating ? "animate-slide-in-bottom" : ""
-//         }`}
-//       >
-//         {/* Header with glass effect */}
-//         <header className="bg-white bg-opacity-80 backdrop-blur-lg shadow-sm z-10 py-3 px-4 flex items-center sticky top-0 border-b border-slate-200 m-5 rounded-xl">
-//           <div className="flex items-center justify-between w-full">
-//             <div className="flex items-center w-full justify-between">
-//               <button
-//                 className="p-2 rounded-full transition-colors mr-2 flex items-center text-slate-700"
-//                 onClick={handleClick}
-//               >
-//                 <MoveLeft size={18} />
-//                 <span className="text-sm font-medium ml-3 hidden sm:inline">
-//                   Back to Documents
-//                 </span>
-//               </button>
-
-//               <div className="flex items-center ml-1 sm:ml-4">
-//                 <div className="bg-gradient-to-r from-blue-500 to-indigo-600 h-8 w-8 rounded-lg flex items-center justify-center text-white shadow-sm mr-2">
-//                   <Brain size={16} />
-//                 </div>
-//                 <h1 className="text-lg font-semibold text-slate-800">
-//                   Data Agents AI
-//                 </h1>
-//               </div>
-//             </div>
-//           </div>
-//         </header>
-
-//         {/* Chat Container */}
-//         <div
-//           ref={chatContainerRef}
-//           className="flex-1 overflow-y-auto py-6 px-4 md:px-8"
-//           style={{
-//             backgroundImage:
-//               "radial-gradient(circle at 25px 25px, rgba(0, 0, 0, 0.01) 2%, transparent 0%), radial-gradient(circle at 75px 75px, rgba(0, 0, 0, 0.01) 2%, transparent 0%)",
-//             backgroundSize: "100px 100px",
-//           }}
-//         >
-//           <div className="max-w-3xl mx-auto space-y-6 pb-4">
-//             {messages.map((message, index) => (
-//               <div
-//                 key={index}
-//                 className={`flex ${
-//                   message.role === "user" ? "justify-end" : "justify-start"
-//                 } group`}
-//               >
-//                 <div className="flex flex-col max-w-xs sm:max-w-md md:max-w-lg space-y-1">
-//                   {message.role === "assistant" && (
-//                     <div className="flex items-center ml-2 mb-1">
-//                       <div className="h-7 w-7 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center text-white shadow-sm">
-//                         <Sparkles size={14} />
-//                       </div>
-//                       <span className="text-xs font-medium text-slate-600 ml-2">
-//                         AI Assistant
-//                       </span>
-//                     </div>
-//                   )}
-
-//                   <div
-//                     className={`p-3.5 sm:p-4 rounded-2xl ${
-//                       message.role === "user"
-//                         ? "bg-gradient-to-r from-gray-100 to-gray-200 text-black shadow-md ml-12"
-//                         : "bg-white border border-slate-200 text-slate-800 shadow-sm mr-12"
-//                     }`}
-//                   >
-//                     {message.content}
-//                   </div>
-
-//                   <div
-//                     className={`text-xs text-slate-500 mx-2 opacity-0 group-hover:opacity-100 transition-opacity ${
-//                       message.role === "user" ? "text-right" : "text-left"
-//                     }`}
-//                   >
-//                     {message.timestamp}
-//                   </div>
-//                 </div>
-//               </div>
-//             ))}
-
-//             {isLoading && (
-//               <div className="flex justify-start">
-//                 <div className="flex flex-col max-w-xs sm:max-w-md md:max-w-lg space-y-1">
-//                   <div className="flex items-center ml-2 mb-1">
-//                     <div className="h-7 w-7 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center text-white shadow-sm">
-//                       <Sparkles size={14} />
-//                     </div>
-//                     <span className="text-xs font-medium text-slate-600 ml-2">
-//                       AI Assistant
-//                     </span>
-//                   </div>
-
-//                   <div className="p-4 bg-white border border-slate-200 rounded-2xl shadow-sm">
-//                     {isThinking ? (
-//                       <div className="flex items-center text-slate-500 text-sm">
-//                         <span className="mr-3">Thinking</span>
-//                         <div className="flex space-x-1">
-//                           <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse"></div>
-//                           <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse delay-75"></div>
-//                           <div className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse delay-150"></div>
-//                         </div>
-//                       </div>
-//                     ) : (
-//                       <div className="flex items-center text-slate-500 text-sm">
-//                         <span className="mr-3">Generating response</span>
-//                         <div className="flex space-x-1">
-//                           <div
-//                             className="w-2 h-2 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full animate-bounce"
-//                             style={{ animationDelay: "0ms" }}
-//                           ></div>
-//                           <div
-//                             className="w-2 h-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full animate-bounce"
-//                             style={{ animationDelay: "300ms" }}
-//                           ></div>
-//                           <div
-//                             className="w-2 h-2 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full animate-bounce"
-//                             style={{ animationDelay: "600ms" }}
-//                           ></div>
-//                         </div>
-//                       </div>
-//                     )}
-//                   </div>
-//                 </div>
-//               </div>
-//             )}
-//             <div ref={messagesEndRef} />
-//           </div>
-//         </div>
-
-//         {/* Enhanced Input Form with glass effect */}
-//         <div className="w-2xl m-5 mx-auto">
-//           <form onSubmit={handleSubmit} className="relative">
-//             <div className="relative flex items-center bg-white rounded-xl shadow-sm border border-slate-200 hover:border-blue-300 focus-within:ring-2 focus-within:ring-blue-200 focus-within:border-blue-400 transition-all duration-200">
-//               {/* Input field */}
-//               <input
-//                 ref={inputRef}
-//                 type="text"
-//                 value={input}
-//                 onChange={(e) => setInput(e.target.value)}
-//                 onKeyPress={(e) => {
-//                   if (e.key === "Enter" && !e.shiftKey) {
-//                     e.preventDefault();
-//                     handleSubmit(e);
-//                   }
-//                 }}
-//                 placeholder="Message the AI assistant..."
-//                 className="flex-1 py-3.5 px-4 bg-transparent focus:outline-none text-slate-800 placeholder-slate-400 rounded-xl"
-//                 style={{ caretColor: "#3b82f6" }}
-//               />
-
-//               {/* Attachment button */}
-//               <button
-//                 type="button"
-//                 className="text-slate-400 hover:text-slate-600 p-2 hover:bg-slate-50 rounded-full transition-colors mr-1"
-//                 title="Add attachment"
-//               >
-//                 <Paperclip size={18} />
-//               </button>
-
-//               {/* Send button with animation */}
-//               <button
-//                 type="submit"
-//                 disabled={isLoading || input.trim() === ""}
-//                 className={`flex items-center justify-center w-10 h-10 mx-1.5 my-1 rounded-lg transition-all duration-200 ${
-//                   isLoading || input.trim() === ""
-//                     ? "bg-slate-200 text-slate-400 cursor-not-allowed"
-//                     : "bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white shadow-md hover:shadow-lg transform hover:scale-105"
-//                 }`}
-//               >
-//                 {isLoading ? (
-//                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-//                 ) : (
-//                   <SendIcon size={18} />
-//                 )}
-//               </button>
-//             </div>
-//           </form>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Chatbot;
-
 import {
   MoveLeft,
   Paperclip,
@@ -332,8 +18,7 @@ function Chatbot() {
   const [messages, setMessages] = useState([
     {
       role: "assistant",
-      content:
-        "Hello! I'm your AI assistant for data analysis. How can I help you today?",
+      content: "Hi! 👋  What would you like this agent to do?",
       timestamp: new Date().toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
@@ -345,6 +30,7 @@ function Chatbot() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [isThinking, setIsThinking] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [responseIndex, setResponseIndex] = useState(0);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const chatContainerRef = useRef(null);
@@ -393,11 +79,42 @@ function Chatbot() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const orderedResponses = [
+    "Got it. Which data sources should I use?",
+    "Schedule?",
+    <>
+      <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+        Acme Invoice Matcher
+      </h2>
+      <div className="space-y-2 text-gray-700">
+        <p>
+          <span className="font-medium">Template:</span> Matching
+        </p>
+        <p>
+          <span className="font-medium">Sources:</span> Invoices Mailbox, SAP
+          Purchase Orders
+        </p>
+        <p>
+          <span className="font-medium">Schedule:</span> Hourly
+        </p>
+        <p>
+          <span className="font-medium">Actions:</span> Flag mismatch, write
+          note back to SAP
+        </p>
+      </div>
+      <div className="mt-6">
+        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+          Create & Run
+        </button>
+      </div>
+    </>,
+  ];
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (input.trim() === "") return;
 
-    // Add user message with timestamp
+    // Add user message
     const userMessage = {
       role: "user",
       content: input,
@@ -411,35 +128,28 @@ function Chatbot() {
     setIsLoading(true);
     setIsThinking(true);
 
-    // Simulate API "thinking" delay
+    // Simulate thinking delay
     setTimeout(() => {
       setIsThinking(false);
     }, 800);
 
-    // Simulate API response delay
+    // Simulate response delay
     setTimeout(() => {
-      // Add bot response
-      const responses = [
-        "I've analyzed the data from your documents. Would you like me to show you the key insights?",
-        "Based on the financial reports you've uploaded, I can see some interesting trends. Let me explain.",
-        "I've processed the annual reports. The data suggests a significant growth in the second quarter.",
-        "Looking at your documents, I can identify several patterns that might be relevant for your analysis.",
-        "After examining the PDFs you provided, I've extracted some important metrics that you should know about.",
-        "The data from your reports shows some notable changes compared to last year. Would you like me to highlight the differences?",
-      ];
-      const randomResponse =
-        responses[Math.floor(Math.random() * responses.length)];
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          content: randomResponse,
-          timestamp: new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-        },
-      ]);
+      const nextResponse = orderedResponses[responseIndex];
+      if (nextResponse !== undefined) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content: nextResponse,
+            timestamp: new Date().toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          },
+        ]);
+        setResponseIndex((prevIndex) => prevIndex + 1); // increment only if more responses available
+      }
       setIsLoading(false);
     }, 2000);
   };
