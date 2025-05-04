@@ -89,33 +89,53 @@ const Sidebar = () => {
         </button>
 
         {/* Menu items */}
-        <div className="space-y-1">
-          {menuItems.map((item) => (
-            <NavLink
-              to={item.url}
-              key={item.id}
-              className={`
+        <div className="">
+          <div className="flex items-center">
+            <img
+              src="/logo.png"
+              alt=""
+              width="60px"
+              className={`${isSidebarOpen ? "mb-1" : "mb-3"}`}
+            />
+            <div className={`${isSidebarOpen ? "block" : "hidden"}`}>
+              <h1 className="text-sm md:text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-700">
+                InfraHive AI
+              </h1>
+              <p className="text-xs text-gray-500 hidden sm:block">
+                AI Data Brain for Factories
+              </p>
+            </div>
+          </div>
+          <div className="space-y-1">
+            {menuItems.map((item) => (
+              <NavLink
+                to={item.url}
+                key={item.id}
+                className={`
                 flex items-center rounded-md hover:bg-gray-100 cursor-pointer transition-colors
                 ${
                   isSidebarOpen || isMobile ? "px-3 py-3" : "p-3 justify-center"
                 }
-              `}
-              style={({ isActive }) => ({
-                backgroundColor: isActive ? "#E7E9EB" : "",
-              })}
-            >
-              <div
-                className={`text-gray-500 ${
-                  isSidebarOpen || isMobile ? "mr-3" : "mr-0"
-                }`}
+                `}
+                style={({ isActive }) => ({
+                  backgroundColor: isActive ? "#E7E9EB" : "",
+                })}
               >
-                {item.icon}
-              </div>
-              {(isSidebarOpen || isMobile) && (
-                <span className="text-gray-700 font-medium">{item.title}</span>
-              )}
-            </NavLink>
-          ))}
+                <div
+                  className={`text-gray-500 ${
+                    isSidebarOpen || isMobile ? "mr-3" : "mr-0"
+                  }`}
+                >
+                  {item.icon}
+                </div>
+                {(isSidebarOpen || isMobile) && (
+                  <span className="text-gray-700 font-medium">
+                    {item.title}
+                  </span>
+                )}
+              </NavLink>
+            ))}
+          </div>
         </div>
 
         {/* User profile */}

@@ -2,15 +2,15 @@ import {
   MoveLeft,
   Paperclip,
   SendIcon,
-  Sparkles,
-  Brain,
   Maximize2,
   Minimize2,
   X,
   Plus,
+  Bot,
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import AiChatbotCard from "./AiChatbotCard";
 
 function Chatbot() {
   const navigate = useNavigate();
@@ -31,6 +31,7 @@ function Chatbot() {
   const [isThinking, setIsThinking] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [responseIndex, setResponseIndex] = useState(0);
+
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const chatContainerRef = useRef(null);
@@ -82,32 +83,7 @@ function Chatbot() {
   const orderedResponses = [
     "Got it. Which data sources should I use?",
     "Schedule?",
-    <>
-      <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-        Acme Invoice Matcher
-      </h2>
-      <div className="space-y-2 text-gray-700">
-        <p>
-          <span className="font-medium">Template:</span> Matching
-        </p>
-        <p>
-          <span className="font-medium">Sources:</span> Invoices Mailbox, SAP
-          Purchase Orders
-        </p>
-        <p>
-          <span className="font-medium">Schedule:</span> Hourly
-        </p>
-        <p>
-          <span className="font-medium">Actions:</span> Flag mismatch, write
-          note back to SAP
-        </p>
-      </div>
-      <div className="mt-6">
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-          Create & Run
-        </button>
-      </div>
-    </>,
+    <AiChatbotCard/>
   ];
 
   const handleSubmit = (e) => {
@@ -164,11 +140,9 @@ function Chatbot() {
 
   // List of example conversation starters
   const conversationStarters = [
-    "Analyze the trends in our quarterly reports",
-    "Compare this year's performance with last year",
-    "Show me key metrics from the annual report",
-    "Extract financial data from these PDFs",
-    "Identify growth patterns across all documents",
+    "Match invoices to POs and flag any price or quantity mismatches.",
+    "Scan QC images for cracks or scratches, then email QA with defect shots.",
+    "Check inventory levels every night and draft POs for items below reorder point.",
   ];
 
   return (
@@ -194,10 +168,8 @@ function Chatbot() {
               </button>
             </div>
 
-            <div className="flex items-center">
-              <div className="bg-gradient-to-r from-blue-500 to-indigo-600 h-7 w-7 sm:h-8 sm:w-8 rounded-lg flex items-center justify-center text-white shadow-sm mr-2">
-                <Brain size={16} />
-              </div>
+            <div className="flex items-center gap-3">
+              <img src="/logo.png" alt="" width="40px" />
               <h1 className="text-base sm:text-lg font-semibold text-slate-800">
                 Data Agents AI
               </h1>
@@ -235,14 +207,19 @@ function Chatbot() {
           <div className="px-3 sm:px-4 md:px-6 mt-2 mb-4">
             <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-4 sm:p-5 max-w-3xl mx-auto animate-fade-in">
               <h2 className="text-base sm:text-lg font-medium text-slate-800 mb-2 sm:mb-3">
-                Welcome to Data Agents AI
+                👋 Welcome to InfraHive AI Agent Studio
               </h2>
               <p className="text-sm text-slate-600 mb-3">
-                I can help analyze your documents and extract insights.
+                I’m your factory’s data brain—ready to read, label, and act on
+                every messy file so your team can focus on bigger wins.
+              </p>
+              <p className="text-sm text-slate-600 mb-3">
+                Just tell me the outcome you need and I’ll spin up an agent that
+                does the heavy lifting in the background.
               </p>
 
               <h3 className="text-xs sm:text-sm font-medium text-slate-700 mb-2">
-                Try asking me about:
+                Try asking me to:
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {conversationStarters.map((starter, index) => (
@@ -257,6 +234,15 @@ function Chatbot() {
                     {starter}
                   </button>
                 ))}
+              </div>
+              <div className="mt-5 flex items-center gap-3">
+                <span>
+                  <Bot />
+                </span>
+                <h3 className="text-xs sm:text-sm font-medium text-slate-700">
+                  One chat, one click, hours saved. Let’s automate something
+                  awesome!
+                </h3>
               </div>
             </div>
           </div>
@@ -287,10 +273,7 @@ function Chatbot() {
                 >
                   {message.role === "assistant" && (
                     <div className="flex items-center ml-2 mb-1">
-                      <div className="h-6 w-6 sm:h-7 sm:w-7 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center text-white shadow-sm">
-                        <Sparkles size={12} className="sm:hidden" />
-                        <Sparkles size={14} className="hidden sm:block" />
-                      </div>
+                      <img src="/logo.png" alt="" width="20px" />
                       <span className="text-xs font-medium text-slate-600 ml-2">
                         AI Assistant
                       </span>
@@ -322,10 +305,7 @@ function Chatbot() {
               <div className="flex justify-start">
                 <div className="flex flex-col max-w-[85%] sm:max-w-[75%] md:max-w-[70%] space-y-1">
                   <div className="flex items-center ml-2 mb-1">
-                    <div className="h-6 w-6 sm:h-7 sm:w-7 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center text-white shadow-sm">
-                      <Sparkles size={12} className="sm:hidden" />
-                      <Sparkles size={14} className="hidden sm:block" />
-                    </div>
+                    <img src="/logo.png" alt="" width="20px" />
                     <span className="text-xs font-medium text-slate-600 ml-2">
                       AI Assistant
                     </span>

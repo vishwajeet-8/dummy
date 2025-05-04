@@ -33,12 +33,12 @@ const SourceData = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
         <div className="flex items-center mb-4 sm:mb-0">
           <h1 className="text-xl font-bold text-gray-800">
-            Upload or Configure Source Documents
+            Configure Data Sources
           </h1>
         </div>
         <button className="flex items-center font-semibold bg-gray-50 hover:bg-gray-100 text-gray-700 px-4 py-2 rounded border border-gray-200 transition-colors">
           <RefreshCw size={16} className="mr-2" />
-          <span>Synchronize Documents</span>
+          <span>Refresh</span>
         </button>
       </div>
 
@@ -51,9 +51,6 @@ const SourceData = () => {
             className="w-full px-3 py-2 border border-gray-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-100"
           />
         </div>
-        <button className="bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-50 transition-colors font-semibold">
-          Columns
-        </button>
       </div>
 
       {/* Table Header */}
