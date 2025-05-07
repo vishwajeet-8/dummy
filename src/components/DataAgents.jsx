@@ -38,30 +38,7 @@ const DataAgents = () => {
       nextRun: "NULL",
       status: "Pending",
     },
-    {
-      name: "Acme Invoice Matcher",
-      template: "Matching",
-      schedule: "Hourly",
-      lastRun: "2025-05-01 13:42",
-      nextRun: "NULL",
-      status: "Pending",
-    },
-    {
-      name: "Acme Invoice Matcher",
-      template: "Matching",
-      schedule: "Hourly",
-      lastRun: "2025-05-01 13:42",
-      nextRun: "NULL",
-      status: "Pending",
-    },
-    {
-      name: "Acme Invoice Matcher",
-      template: "Matching",
-      schedule: "Hourly",
-      lastRun: "2025-05-01 13:42",
-      nextRun: "NULL",
-      status: "Pending",
-    },
+
     // Add more agents if needed
   ];
 

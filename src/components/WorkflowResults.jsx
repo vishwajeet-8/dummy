@@ -1,114 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Info,
-  FileText,
-  FileSpreadsheet,
-  Download,
-  Database,
   CheckCircle,
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
-  ChevronDown,
+  Trash,
 } from "lucide-react";
+import axios from "axios";
 
 const WorkflowResults = () => {
   const [rowsPerPage, setRowsPerPage] = useState(100);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRows, setSelectedRows] = useState([]);
-  const [showUnderHood, setShowUnderHood] = useState(false);
+  const [pdfDataLength, setPdfDataLength] = useState();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const getPdfs = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/api/list-pdfs");
+        setPdfDataLength(response.data.length);
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getPdfs();
+  }, []);
 
   // Sample data to match the image
   const agentData = [
     {
       id: 1,
-      name: "Energy Consumption Percentage by Source",
-      extractions: 48,
+      name: "Acme Invoice Matcher Agent 1",
+      extractions: pdfDataLength,
       consistency: {
-        consistent: 18,
-        inconsistent: 2,
-        missing: 28,
-      },
-      status: "Processed",
-    },
-    {
-      id: 2,
-      name: "Energy Consumption by Source",
-      extractions: 48,
-      consistency: {
-        consistent: 23,
-        inconsistent: 0,
-        missing: 25,
-      },
-      status: "Processed",
-    },
-    {
-      id: 2,
-      name: "Energy Consumption by Source",
-      extractions: 48,
-      consistency: {
-        consistent: 23,
-        inconsistent: 0,
-        missing: 25,
-      },
-      status: "Processed",
-    },
-    {
-      id: 2,
-      name: "Energy Consumption by Source",
-      extractions: 48,
-      consistency: {
-        consistent: 23,
-        inconsistent: 0,
-        missing: 25,
-      },
-      status: "Processed",
-    },
-    {
-      id: 2,
-      name: "Energy Consumption by Source",
-      extractions: 48,
-      consistency: {
-        consistent: 23,
-        inconsistent: 0,
-        missing: 25,
-      },
-      status: "Processed",
-    },
-    {
-      id: 2,
-      name: "Energy Consumption by Source",
-      extractions: 48,
-      consistency: {
-        consistent: 23,
-        inconsistent: 0,
-        missing: 25,
-      },
-      status: "Processed",
-    },
-    {
-      id: 2,
-      name: "Energy Consumption by Source",
-      extractions: 48,
-      consistency: {
-        consistent: 23,
-        inconsistent: 0,
-        missing: 25,
-      },
-      status: "Processed",
-    },
-    {
-      id: 2,
-      name: "Energy Consumption by Source",
-      extractions: 48,
-      consistency: {
-        consistent: 23,
-        inconsistent: 0,
-        missing: 25,
+        Total: 24,
+        Contract: 6,
+        Invoices: 18,
       },
       status: "Processed",
     },
@@ -128,22 +61,22 @@ const WorkflowResults = () => {
   };
 
   // Helper function to render progress bar
-  const renderProgressBar = (consistent, inconsistent, missing) => {
-    const total = consistent + inconsistent + missing;
-    const consistentWidth = (consistent / total) * 100;
-    const inconsistentWidth = (inconsistent / total) * 100;
+  const renderProgressBar = (Total, Contract, Invoices) => {
+    const total = Total;
+    const contractWidth = (Contract / total) * 100;
+    const invoicesWidth = (Invoices / total) * 100;
 
     return (
       <div className="w-full bg-gray-200 rounded-full h-2">
         <div className="flex rounded-full h-full overflow-hidden">
           <div
             className="bg-[#93AE7A]"
-            style={{ width: `${consistentWidth}%` }}
+            style={{ width: `${contractWidth}%` }}
           />
-          {inconsistent > 0 && (
+          {Contract > 0 && (
             <div
               className="bg-yellow-400"
-              style={{ width: `${inconsistentWidth}%` }}
+              style={{ width: `${invoicesWidth}%` }}
             />
           )}
         </div>
@@ -152,31 +85,18 @@ const WorkflowResults = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6 mx-auto h-full flex flex-col justify-around">
+    <div className="bg-white rounded-lg shadow-sm p-6 mx-auto h-full flex flex-col">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
         <div className="flex items-center mb-4 sm:mb-0">
           <h1 className="text-xl font-medium text-gray-800">
             Investigate & Export Agent Results
           </h1>
-          <Info size={18} className="ml-2 text-gray-400" />
         </div>
         <div className="flex flex-wrap gap-2">
           <button className="flex items-center bg-white hover:bg-gray-50 text-gray-700 px-4 py-2 rounded border border-gray-200 transition-colors">
-            <FileText size={16} className="mr-2" />
-            <span>Fill Report</span>
-          </button>
-          <button className="flex items-center bg-white hover:bg-gray-50 text-gray-700 px-4 py-2 rounded border border-gray-200 transition-colors">
-            <FileSpreadsheet size={16} className="mr-2" />
-            <span>Fill Excel</span>
-          </button>
-          <button className="flex items-center bg-white hover:bg-gray-50 text-gray-700 px-4 py-2 rounded border border-gray-200 transition-colors">
-            <Download size={16} className="mr-2" />
-            <span>Excel</span>
-          </button>
-          <button className="flex items-center bg-white hover:bg-gray-50 text-gray-700 px-4 py-2 rounded border border-gray-200 transition-colors">
-            <Database size={16} className="mr-2" />
-            <span>External DB</span>
+            <Trash size={16} className="mr-2" />
+            <span>Delete</span>
           </button>
         </div>
       </div>
@@ -235,30 +155,30 @@ const WorkflowResults = () => {
             <div className="col-span-3 md:col-span-4 flex flex-col space-y-2">
               <div>
                 {renderProgressBar(
-                  agent.consistency.consistent,
-                  agent.consistency.inconsistent,
-                  agent.consistency.missing
+                  agent.consistency.Total,
+                  agent.consistency.Contract,
+                  agent.consistency.Invoices
                 )}
               </div>
               <div className="text-xs text-gray-500">
-                <span className="text-[#93AE7A]">
-                  {agent.consistency.consistent} consistent
+                <span className="text-gray-600">
+                  {agent.consistency.Total} total
                 </span>
-                {agent.consistency.inconsistent > 0 && (
-                  <span className="text-yellow-600">
+                {agent.consistency.Invoices > 0 && (
+                  <span className="text-[#93AE7A]">
                     {" "}
-                    / {agent.consistency.inconsistent} inconsistent
+                    / {agent.consistency.Contract} contract
                   </span>
                 )}
-                {agent.consistency.inconsistent === 0 && (
-                  <span className="text-gray-400">
+                {agent.consistency.Contract === 0 && (
+                  <span className="text-yellow-400">
                     {" "}
-                    / {agent.consistency.inconsistent} inconsistent
+                    / {agent.consistency.Contract} contract
                   </span>
                 )}
-                <span className="text-gray-400">
+                <span className="text-yellow-400">
                   {" "}
-                  / {agent.consistency.missing} missing
+                  / {agent.consistency.Invoices} invoices
                 </span>
               </div>
             </div>
@@ -311,20 +231,6 @@ const WorkflowResults = () => {
           </div>
         </div>
       </div>
-
-      {/* Look under the hood section */}
-      {/* <div className="mt-6 pt-4 text-center">
-        <button
-          className="flex items-center mx-auto text-gray-600 hover:text-gray-800 cursor-pointer"
-          onClick={() => {
-            setShowUnderHood(!showUnderHood);
-            navigate("/agents-chatbot");
-          }}
-        >
-          <span>Look under the hood</span>
-          <ChevronDown size={16} className="ml-1" />
-        </button>
-      </div> */}
     </div>
   );
 };

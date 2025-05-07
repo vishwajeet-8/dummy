@@ -11,6 +11,7 @@ import {
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import AiChatbotCard from "./AiChatbotCard";
+import LogsModal from "./LogsModal";
 
 function Chatbot() {
   const navigate = useNavigate();
@@ -83,8 +84,23 @@ function Chatbot() {
   const orderedResponses = [
     "Got it. Which data sources should I use?",
     "Schedule?",
-    <AiChatbotCard/>
+    <AiChatbotCard
+      key="aichatbot"
+      onRunClick={() => {
+        // Add logs modal directly to messages
+        const logMessage = {
+          role: "assistant",
+          content: <LogsModal key="logsmodal" />,
+          timestamp: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        };
+        setMessages((prev) => [...prev, logMessage]);
+      }}
+    />,
   ];
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -126,6 +142,7 @@ function Chatbot() {
         ]);
         setResponseIndex((prevIndex) => prevIndex + 1); // increment only if more responses available
       }
+
       setIsLoading(false);
     }, 2000);
   };
@@ -408,11 +425,6 @@ function Chatbot() {
                   </>
                 )}
               </button>
-            </div>
-
-            {/* Hint text - hidden on small screens */}
-            <div className="mt-1 text-xs text-slate-500 text-center hidden sm:block">
-              <span>Type / to see available commands</span>
             </div>
           </form>
         </div>

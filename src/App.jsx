@@ -24,7 +24,7 @@ const App = () => {
             <Route path="/agents-chatbot" element={<Chatbot />} />
             <Route path="/workflow-data" element={<WorkflowData />} />
             <Route
-              path="/workflow-consistency"
+              path="/workflow-data/:filename"
               element={<WorkflowConsistency />}
             />
             <Route path="/logs" element={<Logs />} />

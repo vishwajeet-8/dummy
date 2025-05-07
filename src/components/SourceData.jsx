@@ -5,7 +5,8 @@ import {
   ChevronsLeft,
   ChevronsRight,
   ArrowUpDown,
-  Info,
+  Database,
+  Mail,
   RefreshCw,
 } from "lucide-react";
 
@@ -13,6 +14,12 @@ const SourceData = () => {
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRows, setSelectedRows] = useState([]);
+  const [connectingTo, setConnectingTo] = useState(null);
+  const [connectionStatuses, setConnectionStatuses] = useState({
+    sap: "disconnected",
+    odoo: "disconnected",
+    mailbox: "disconnected",
+  });
 
   const fileTypes = [
     { type: "PDF", icon: "document" },
@@ -26,6 +33,41 @@ const SourceData = () => {
     setRowsPerPage(parseInt(e.target.value));
     setCurrentPage(1);
   };
+
+  const handleConnect = (source) => {
+    setConnectingTo(source);
+  };
+
+  const handleConnectConfirm = () => {
+    if (connectingTo) {
+      setConnectionStatuses((prev) => ({
+        ...prev,
+        [connectingTo]: "connected",
+      }));
+      setConnectingTo(null);
+    }
+  };
+
+  const renderConnectionCard = (title, description, icon, source, color) => (
+    <div className="border border-gray-200 shadow-xl rounded-md  p-4 bg-white">
+      <div className="flex items-center gap-2 mb-2">
+        <span style={{ color }}>{icon}</span>
+        <h3
+          className="text-lg font-medium px-3 text-white rounded"
+          style={{ backgroundColor: color }}
+        >
+          {title}
+        </h3>
+      </div>
+      <p className="text-sm text-muted-foreground mb-4">{description}</p>
+      <button
+        className="text-sm bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-700"
+        onClick={() => handleConnect(source)}
+      >
+        {connectionStatuses[source] === "connected" ? "Connected" : "Connect"}
+      </button>
+    </div>
+  );
 
   return (
     <div className="bg-white rounded-lg shadow-sm p-6 mx-auto h-full">
@@ -41,6 +83,177 @@ const SourceData = () => {
           <span>Refresh</span>
         </button>
       </div>
+
+      <div className="mb-8">
+        <h2 className="text-sm font-semibold mb-4 bg-gray-100 p-3 rounded">
+          Enterprise Connections
+        </h2>
+        <div className="flex gap-6">
+          {renderConnectionCard(
+            "SAP",
+            "Connect to your SAP ERP system to import transaction data",
+            <Database className="h-5 w-5" />,
+            "sap",
+            "#0FAAFF"
+          )}
+          {renderConnectionCard(
+            "Odoo",
+            "Import data from your Odoo business applications",
+            <Database className="h-5 w-5" />,
+            "odoo",
+            "#714B67"
+          )}
+          {renderConnectionCard(
+            "Mailbox",
+            "Connect to email accounts to import data from attachments",
+            <Mail className="h-5 w-5" />,
+            "mailbox",
+            "#4285F4"
+          )}
+        </div>
+      </div>
+
+      {/* Simple Dialog Modal */}
+      {connectingTo && (
+        <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50 bg-opacity-30 backdrop-blur-sm transition-all duration-300">
+          <div className="bg-white rounded-md p-6 w-full max-w-md">
+            <h2 className="text-lg font-semibold mb-4">
+              Connect to {connectingTo.toUpperCase()}
+            </h2>
+            <div className="space-y-4">
+              {connectingTo === "sap" && (
+                <>
+                  <div>
+                    <label
+                      htmlFor="sap-server"
+                      className="block text-sm font-medium"
+                    >
+                      SAP Server URL
+                    </label>
+                    <input
+                      id="sap-server"
+                      className="w-full px-3 py-2 border rounded-md"
+                      placeholder="https://sap-server.company.com"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="sap-client"
+                      className="block text-sm font-medium"
+                    >
+                      SAP Client
+                    </label>
+                    <input
+                      id="sap-client"
+                      className="w-full px-3 py-2 border rounded-md"
+                      placeholder="100"
+                    />
+                  </div>
+                </>
+              )}
+
+              {connectingTo === "odoo" && (
+                <>
+                  <div>
+                    <label
+                      htmlFor="odoo-url"
+                      className="block text-sm font-medium"
+                    >
+                      Odoo URL
+                    </label>
+                    <input
+                      id="odoo-url"
+                      className="w-full px-3 py-2 border rounded-md"
+                      placeholder="https://mycompany.odoo.com"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="odoo-database"
+                      className="block text-sm font-medium"
+                    >
+                      Database Name
+                    </label>
+                    <input
+                      id="odoo-database"
+                      className="w-full px-3 py-2 border rounded-md"
+                      placeholder="mycompany-db"
+                    />
+                  </div>
+                </>
+              )}
+
+              {connectingTo === "mailbox" && (
+                <>
+                  <div>
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium"
+                    >
+                      Email Address
+                    </label>
+                    <input
+                      id="email"
+                      className="w-full px-3 py-2 border rounded-md"
+                      placeholder="yourname@company.com"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="mail-server"
+                      className="block text-sm font-medium"
+                    >
+                      Mail Server
+                    </label>
+                    <input
+                      id="mail-server"
+                      className="w-full px-3 py-2 border rounded-md"
+                      placeholder="imap.company.com"
+                    />
+                  </div>
+                </>
+              )}
+
+              <div>
+                <label htmlFor="username" className="block text-sm font-medium">
+                  Username
+                </label>
+                <input
+                  id="username"
+                  className="w-full px-3 py-2 border rounded-md"
+                  placeholder="username"
+                />
+              </div>
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium">
+                  Password
+                </label>
+                <input
+                  id="password"
+                  type="password"
+                  className="w-full px-3 py-2 border rounded-md"
+                  placeholder="••••••••"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2 mt-6">
+              <button
+                onClick={() => setConnectingTo(null)}
+                className="px-4 py-2 border rounded-md"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConnectConfirm}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md"
+              >
+                Connect
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Filter and Columns */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4">
