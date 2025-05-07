@@ -21,7 +21,7 @@ const WorkflowResults = () => {
   useEffect(() => {
     const getPdfs = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/list-pdfs");
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/list-pdfs`);
         setPdfDataLength(response.data.length);
         console.log(response.data);
       } catch (error) {

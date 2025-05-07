@@ -37,7 +37,7 @@ const WorkflowConsistency = () => {
     setShowContract((prev) => !prev);
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/get-pdf/${filename}`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/get-pdf/${filename}`,
         { responseType: "blob" }
       );
       const blob = new Blob([response.data], { type: "application/pdf" });
