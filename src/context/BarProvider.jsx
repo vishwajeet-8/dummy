@@ -64,53 +64,9 @@ export const BarProvider = ({ children }) => {
     },
   ]);
 
-  const [agreement, setAgreement] = useState(() => {
-    return localStorage.getItem("agreement") || null;
-  });
-
-  // Sample data for contract and invoices --> workflowdata & wowrkflowConsistency component
-  const initialData = [
-    {
-      id: 1,
-      company: "Premium Flour Mills",
-      source: "Supply Agreement Contract",
-      url: "contract-1.pdf",
-    },
-    {
-      id: 2,
-      company: "Fresh Farms Dairy Cooperative",
-      source: "DAIRY SUPPLY AGREEMENT",
-      url: "contract-2.pdf",
-    },
-    {
-      id: 3,
-      company: "SweetWay Sugar Suppliers",
-      source: "SUPPLY AGREEMENT",
-      url: "contract-3.pdf",
-    },
-    {
-      id: 4,
-      company: "EcoPack Solutions, Inc.",
-      source: "PACKAGING SUPPLY AGREEMENT",
-      url: "contract-4.pdf",
-    },
-    {
-      id: 5,
-      company: "Golden State Fruit Farms",
-      source: "This Fruit Supply Agreement",
-      url: "contract-5.pdf",
-    },
-    {
-      id: 6,
-      company: "Bakery Equipment Masters",
-      source: "EQUIPMENT MAINTENANCE AGREEMENT",
-      url: "contract-6.pdf",
-    },
-  ];
-
   return (
     <BarContext.Provider
-      value={{ logs, setLogs, initialData, agreement, setAgreement }}
+      value={{ logs, setLogs }}
     >
       {children}
     </BarContext.Provider>

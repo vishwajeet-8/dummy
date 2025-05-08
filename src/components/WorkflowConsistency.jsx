@@ -1,26 +1,14 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import {
-  ArrowRight,
-  ChevronRight,
-  CircleCheck,
-  CircleX,
-  ClockFading,
-  FileText,
-  X,
-} from "lucide-react";
-import { useParams } from "react-router-dom";
-import { BarContext } from "../context/barContext";
-import { invoicesError } from "../utils";
+import { useEffect, useState } from "react";
+import { ChevronRight, CircleCheck, CircleX, FileText, X } from "lucide-react";
+import { invoicesError, initialData } from "../utils";
 
 const WorkflowConsistency = () => {
   const [expandedInvoices, setExpandedInvoices] = useState({});
   const [pdfUrl, setPdfUrl] = useState(null);
   const [showContract, setShowContract] = useState(false);
-  const [contract, setContract] = useState();
-  const [invoices, setInvoices] = useState([]);
-  const { agreement } = useContext(BarContext);
-  const { filename } = useParams();
+  const [allPdf, setAllPdf] = useState([]);
+
   const toggleInvoice = (id) => {
     setExpandedInvoices((prev) => ({
       ...prev,
@@ -33,7 +21,7 @@ const WorkflowConsistency = () => {
   };
 
   const getPdf = async (filename) => {
-    setShowContract((prev) => !prev);
+    setShowContract(true);
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_BASE_URL}/api/get-pdf/${filename}`,
@@ -41,162 +29,151 @@ const WorkflowConsistency = () => {
       );
       const blob = new Blob([response.data], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
-      console.log(url);
       setPdfUrl(url);
     } catch (error) {
       console.log(error);
     }
   };
 
-  // useEffect(() => {
-  //   const getContractInvoices = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `${
-  //           import.meta.env.VITE_API_BASE_URL
-  //         }/api/contract-invoices/${filename}`
-  //       );
-  //       setContract(response.data.contract);
-  //       setInvoices(response.data.invoices);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   getContractInvoices();
-
-  //   const result = invoicesError.find((item) => item[filename] !== undefined);
-  // }, []);
-
   useEffect(() => {
     const getContractInvoices = async () => {
       try {
         const response = await axios.get(
-          `${
-            import.meta.env.VITE_API_BASE_URL
-          }/api/contract-invoices/${filename}`
+          `${import.meta.env.VITE_API_BASE_URL}/api/contract-invoices`
         );
-
-        setContract(response.data.contract);
-
-        // Raw invoice names from server
-        const invoiceList = response.data.invoices;
-
-        // Find corresponding error object
-        const errorObj = invoicesError.find(
-          (item) => item[filename] !== undefined
-        );
-        const errorMap = errorObj ? errorObj[filename] : {};
-
-        // Merge invoice list with corresponding error message
-        const mergedInvoices = invoiceList.map((invoiceName) => ({
-          name: invoiceName,
-          error: errorMap[invoiceName] ?? false, // default to false if not found
-        }));
-
-        setInvoices(mergedInvoices);
+        console.log(response.data);
+        setAllPdf(response.data);
       } catch (error) {
         console.log(error);
       }
     };
 
     getContractInvoices();
-  }, [filename, invoicesError]);
+  }, []);
 
   return (
-    <div className="flex border-t-2 border-gray-200 mt-5 bg-white rounded-lg shadow-md">
+    <div className="flex">
       {/* Left side - Invoice list */}
       <div
-        className={`${
-          showContract ? "w-2/5" : "w-full"
+        className={`flex flex-col ${
+          showContract ? "w-1/2" : "w-full"
         } transition-all duration-300 ease-in-out`}
       >
-        <div className="p-4 border-b border-gray-200">
-          <div className="flex justify-between items-center">
-            <h1 className="text-lg font-semibold text-gray-800">{agreement}</h1>
-
-            <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">
-              {contract}
-            </span>
-          </div>
-          <button
-            className="mt-2 flex items-center text-sm text-gray-600 hover:text-blue-600"
-            onClick={() => getPdf(filename)}
-          >
-            <FileText size={16} className="text-gray-500 mr-2" />
-            <span>Show contract</span>
-            <ChevronRight size={16} className="ml-1" />
-          </button>
-        </div>
-
-        <div className="p-4">
-          <h3 className="text-md font-medium text-gray-700 mb-3">
-            Reconciled Invoices:
-          </h3>
-
-          <div className="space-y-4">
-            {invoices.map((invoice, index) => (
-              <div
-                key={index}
-                className="border border-gray-200 rounded-md p-4"
-              >
-                <div className="flex justify-between items-center">
-                  <div className="flex justify-between items-center gap-5">
-                    <h2 className="font-medium">{invoice.name}</h2>
-                    <ArrowRight />
-                    <h2>{agreement}</h2>
+        <div className="h-screen overflow-y-auto bg-white rounded-l-lg">
+          {allPdf.map((pdf, index) => (
+            <div
+              key={index}
+              className="mb-4 mx-2 bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all"
+            >
+              <div className="p-5 border-b border-gray-100">
+                <div className="flex flex-col space-y-3">
+                  <div className="flex justify-between items-center">
+                    <h1 className="text-lg font-semibold text-gray-800">
+                      {initialData[index].company}
+                    </h1>
+                    <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                      {pdf.contract}
+                    </span>
                   </div>
-                </div>
-                <div className="flex justify-between">
                   <button
-                    className="mt-2 flex items-center text-sm text-gray-600 hover:text-blue-600"
-                    onClick={() => {
-                      toggleInvoice(index);
-                      getPdf(invoice.name);
-                    }}
+                    className="mt-2 flex items-center text-sm text-gray-600 hover:text-blue-600 transition-colors group"
+                    onClick={() => getPdf(pdf.contract)}
                   >
+                    <FileText
+                      size={16}
+                      className="text-gray-500 mr-2 group-hover:text-blue-600 transition-colors"
+                    />
+                    <span>Show contract</span>
                     <ChevronRight
                       size={16}
-                      className={`transition-transform ${
-                        expandedInvoices[index] ? "transform rotate-90" : ""
-                      }`}
+                      className="ml-1 group-hover:transform group-hover:translate-x-1 transition-transform"
                     />
-                    <span className="ml-1">Show invoice</span>
                   </button>
-                  <div>
-                    {!invoice.error ? (
-                      <CircleCheck className="text-green-600" />
-                    ) : (
-                      <CircleX className="text-red-600" />
-                    )}
-                  </div>
                 </div>
-                {expandedInvoices[index] && (
-                  <div
-                    className={`mt-2 p-2 ${
-                      !invoice.error ? "" : "bg-gray-50 rounded"
-                    }`}
-                  >
-                    <p className="text-sm text-gray-600">
-                      {!invoice.error ? "" : invoice.error}
-                    </p>
-                  </div>
-                )}
               </div>
-            ))}
-          </div>
+
+              <div className="p-5">
+                <h3 className="text-md font-medium text-gray-700 mb-4">
+                  Reconciled Invoices:
+                </h3>
+
+                <div className="space-y-4">
+                  {pdf.invoices.map((invoice, invoiceIndex) => (
+                    <div
+                      key={invoiceIndex}
+                      className="border border-gray-200 rounded-lg p-4 hover:border-blue-200 transition-colors"
+                    >
+                      <div className="flex flex-col space-y-2">
+                        <div className="flex flex-col space-y-2">
+                          <h2 className="font-medium text-gray-800">
+                            {invoice}
+                          </h2>
+                          <h2 className="font-medium text-gray-700">
+                            {initialData[index].source}
+                          </h2>
+                        </div>
+
+                        <div className="flex justify-between items-center">
+                          <button
+                            className="mt-2 flex items-center text-sm text-gray-600 hover:text-blue-600 group transition-colors"
+                            onClick={() => {
+                              toggleInvoice(invoiceIndex);
+                              getPdf(invoice);
+                            }}
+                          >
+                            <ChevronRight
+                              size={16}
+                              className={`transition-transform group-hover:text-blue-600 ${
+                                expandedInvoices[invoiceIndex]
+                                  ? "transform rotate-90"
+                                  : ""
+                              }`}
+                            />
+                            <span className="ml-1">Show invoice</span>
+                          </button>
+                          <div>
+                            {!invoicesError[index].invoices[invoiceIndex] ? (
+                              <CircleCheck className="text-green-600" />
+                            ) : (
+                              <CircleX className="text-red-600" />
+                            )}
+                          </div>
+                        </div>
+
+                        {expandedInvoices[invoiceIndex] && (
+                          <div
+                            className={`mt-2 p-3 rounded-md ${
+                              !invoicesError[index].invoices[invoiceIndex]
+                                ? ""
+                                : "bg-red-50"
+                            }`}
+                          >
+                            <p className="text-sm text-gray-600">
+                              {!invoicesError[index].invoices[invoiceIndex]
+                                ? "Invoice is valid"
+                                : invoicesError[index].invoices[invoiceIndex]}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
       {/* Right side - Contract PDF viewer */}
       {showContract && (
-        <div className="w-3/5 border-l border-gray-200 transition-all duration-300 ease-in-out">
-          <div className="p-2 border-b border-gray-200 flex justify-between items-center">
+        <div className="w-1/2 border-l border-gray-200 bg-white rounded-r-lg transition-all duration-300 ease-in-out">
+          <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
             <h3 className="text-md font-medium text-gray-700">
               Contract Details
             </h3>
             <button
-              className="p-1 hover:bg-gray-100 rounded-full"
+              className="p-1 hover:bg-gray-200 rounded-full transition-colors"
               onClick={toggleContractView}
             >
               <X size={18} className="text-gray-500" />
@@ -206,7 +183,7 @@ const WorkflowConsistency = () => {
             {pdfUrl ? (
               <iframe
                 src={pdfUrl}
-                className="w-full h-screen max-h-[calc(100vh-10rem)]"
+                className="w-full h-screen max-h-[calc(100vh-4rem)]"
                 title="PDF Viewer"
               />
             ) : (

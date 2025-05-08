@@ -22,11 +22,8 @@ const App = () => {
             <Route path="/data-agents" element={<DataAgents />} />
             <Route path="/workflow-results" element={<WorkflowResults />} />
             <Route path="/agents-chatbot" element={<Chatbot />} />
-            <Route path="/workflow-data" element={<WorkflowData />} />
-            <Route
-              path="/workflow-data/:filename"
-              element={<WorkflowConsistency />}
-            />
+            {/* <Route path="/workflow-data" element={<WorkflowData />} /> */}
+            <Route path="/workflow-data/" element={<WorkflowConsistency />} />
             <Route path="/logs" element={<Logs />} />
           </Route>
         </Routes>
