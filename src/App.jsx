@@ -7,7 +7,6 @@ import DataAgents from "./components/DataAgents";
 import WorkflowResults from "./components/WorkflowResults";
 import Chatbot from "./components/Chatbot";
 import WorkflowData from "./components/WorkflowData";
-import WorkflowConsistency from "./components/WorkflowConsistency";
 import Logs from "./components/logs/Logs";
 import { BarProvider } from "./context/BarProvider";
 
@@ -22,8 +21,7 @@ const App = () => {
             <Route path="/data-agents" element={<DataAgents />} />
             <Route path="/workflow-results" element={<WorkflowResults />} />
             <Route path="/agents-chatbot" element={<Chatbot />} />
-            {/* <Route path="/workflow-data" element={<WorkflowData />} /> */}
-            <Route path="/workflow-data/" element={<WorkflowConsistency />} />
+            <Route path="/workflow-data" element={<WorkflowData />} />
             <Route path="/logs" element={<Logs />} />
           </Route>
         </Routes>
