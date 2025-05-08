@@ -2,16 +2,16 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import {
   ArrowRight,
-  CheckCheckIcon,
-  ChevronDown,
   ChevronRight,
   CircleCheck,
   CircleX,
+  ClockFading,
   FileText,
   X,
 } from "lucide-react";
 import { useParams } from "react-router-dom";
 import { BarContext } from "../context/barContext";
+import { invoicesError } from "../utils";
 
 const WorkflowConsistency = () => {
   const [expandedInvoices, setExpandedInvoices] = useState({});
@@ -21,7 +21,6 @@ const WorkflowConsistency = () => {
   const [invoices, setInvoices] = useState([]);
   const { agreement } = useContext(BarContext);
   const { filename } = useParams();
-
   const toggleInvoice = (id) => {
     setExpandedInvoices((prev) => ({
       ...prev,
@@ -49,21 +48,60 @@ const WorkflowConsistency = () => {
     }
   };
 
+  // useEffect(() => {
+  //   const getContractInvoices = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `${
+  //           import.meta.env.VITE_API_BASE_URL
+  //         }/api/contract-invoices/${filename}`
+  //       );
+  //       setContract(response.data.contract);
+  //       setInvoices(response.data.invoices);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+
+  //   getContractInvoices();
+
+  //   const result = invoicesError.find((item) => item[filename] !== undefined);
+  // }, []);
+
   useEffect(() => {
     const getContractInvoices = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/contract-invoices/${filename}`
+          `${
+            import.meta.env.VITE_API_BASE_URL
+          }/api/contract-invoices/${filename}`
         );
+
         setContract(response.data.contract);
-        setInvoices(response.data.invoices);
+
+        // Raw invoice names from server
+        const invoiceList = response.data.invoices;
+
+        // Find corresponding error object
+        const errorObj = invoicesError.find(
+          (item) => item[filename] !== undefined
+        );
+        const errorMap = errorObj ? errorObj[filename] : {};
+
+        // Merge invoice list with corresponding error message
+        const mergedInvoices = invoiceList.map((invoiceName) => ({
+          name: invoiceName,
+          error: errorMap[invoiceName] ?? false, // default to false if not found
+        }));
+
+        setInvoices(mergedInvoices);
       } catch (error) {
         console.log(error);
       }
     };
 
     getContractInvoices();
-  }, []);
+  }, [filename, invoicesError]);
 
   return (
     <div className="flex border-t-2 border-gray-200 mt-5 bg-white rounded-lg shadow-md">
@@ -104,7 +142,7 @@ const WorkflowConsistency = () => {
               >
                 <div className="flex justify-between items-center">
                   <div className="flex justify-between items-center gap-5">
-                    <h2 className="font-medium">{invoice}</h2>
+                    <h2 className="font-medium">{invoice.name}</h2>
                     <ArrowRight />
                     <h2>{agreement}</h2>
                   </div>
@@ -114,7 +152,7 @@ const WorkflowConsistency = () => {
                     className="mt-2 flex items-center text-sm text-gray-600 hover:text-blue-600"
                     onClick={() => {
                       toggleInvoice(index);
-                      getPdf(invoice);
+                      getPdf(invoice.name);
                     }}
                   >
                     <ChevronRight
@@ -126,14 +164,21 @@ const WorkflowConsistency = () => {
                     <span className="ml-1">Show invoice</span>
                   </button>
                   <div>
-                    <CircleCheck className="text-green-600" />
-                    <CircleX className="text-red-600" />
+                    {!invoice.error ? (
+                      <CircleCheck className="text-green-600" />
+                    ) : (
+                      <CircleX className="text-red-600" />
+                    )}
                   </div>
                 </div>
                 {expandedInvoices[index] && (
-                  <div className="mt-2 p-2 bg-gray-50 rounded">
+                  <div
+                    className={`mt-2 p-2 ${
+                      !invoice.error ? "" : "bg-gray-50 rounded"
+                    }`}
+                  >
                     <p className="text-sm text-gray-600">
-                      Invoice details would display here
+                      {!invoice.error ? "" : invoice.error}
                     </p>
                   </div>
                 )}
