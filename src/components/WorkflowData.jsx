@@ -8,6 +8,7 @@ const WorkflowData = () => {
   const [pdfUrl, setPdfUrl] = useState(null);
   const [showContract, setShowContract] = useState(false);
   const [allPdf, setAllPdf] = useState([]);
+  const [isLoad, setIsLoad] = useState(true);
 
   const toggleInvoice = (id) => {
     setExpandedInvoices((prev) => ({
@@ -41,8 +42,8 @@ const WorkflowData = () => {
         const response = await axios.get(
           `${import.meta.env.VITE_API_BASE_URL}/api/contract-invoices`
         );
-        console.log(response.data);
         setAllPdf(response.data);
+        setIsLoad(false);
       } catch (error) {
         console.log(error);
       }
@@ -51,7 +52,36 @@ const WorkflowData = () => {
     getContractInvoices();
   }, []);
 
-  return (
+  return isLoad ? (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "1rem",
+      }}
+    >
+      <div
+        style={{
+          width: "2rem",
+          height: "2rem",
+          borderWidth: "4px",
+          borderStyle: "solid",
+          borderColor: "#93c5fd", // Tailwind's blue-300
+          borderTopColor: "#2563eb", // Tailwind's blue-600
+          borderRadius: "9999px",
+          animation: "spin 1s linear infinite",
+        }}
+      />
+      <style>
+        {`
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+      `}
+      </style>
+    </div>
+  ) : (
     <div className="flex">
       {/* Left side - Invoice list */}
       <div
