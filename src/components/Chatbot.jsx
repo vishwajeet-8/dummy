@@ -101,7 +101,6 @@ function Chatbot() {
     />,
   ];
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (input.trim() === "") return;
@@ -340,9 +339,7 @@ function Chatbot() {
                       </div>
                     ) : (
                       <div className="flex items-center text-slate-500 text-xs sm:text-sm">
-                        <span className="mr-2 sm:mr-3">
-                          Generating response
-                        </span>
+                        <span className="mr-2 sm:mr-3">Setting Up Things</span>
                         <div className="flex space-x-1">
                           <div
                             className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full animate-bounce"
