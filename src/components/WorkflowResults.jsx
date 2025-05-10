@@ -14,16 +14,17 @@ const WorkflowResults = () => {
   const [rowsPerPage, setRowsPerPage] = useState(100);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRows, setSelectedRows] = useState([]);
-  const [pdfDataLength, setPdfDataLength] = useState();
+  const [pdfDataLength, setPdfDataLength] = useState(24);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const getPdfs = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/list-pdfs`);
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/api/list-pdfs`
+        );
         setPdfDataLength(response.data.length);
-        console.log(response.data);
       } catch (error) {
         console.log(error);
       }

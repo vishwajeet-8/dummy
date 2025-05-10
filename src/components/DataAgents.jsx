@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
+import { useContext } from "react";
+import { AgentContext } from "../context/agent/agentContext";
 import {
   Info,
   RefreshCw,
@@ -19,7 +21,7 @@ const DataAgents = () => {
   const [currentPage, setCurrentPage] = useState(1);
   // const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
   const [dropdownAnchor, setDropdownAnchor] = useState(null);
-
+  const { agents } = useContext(AgentContext);
   const handleRowsPerPageChange = (e) => {
     setRowsPerPage(parseInt(e.target.value));
     setCurrentPage(1);
@@ -28,19 +30,6 @@ const DataAgents = () => {
   const handleClick = () => {
     navigate("/agents-chatbot");
   };
-
-  const agents = [
-    {
-      name: "Acme Invoice Matcher",
-      template: "Matching",
-      schedule: "Hourly",
-      lastRun: "2025-05-01 13:42",
-      nextRun: "NULL",
-      status: "Pending",
-    },
-
-    // Add more agents if needed
-  ];
 
   return (
     <div className="bg-white rounded-lg shadow-sm p-6 mx-auto">
@@ -108,7 +97,7 @@ const DataAgents = () => {
           >
             <div className="col-span-4 flex items-center">
               <input type="checkbox" className="mr-3" />
-              <span className="truncate">{agent.name}</span>
+              <span className="truncate">{agent.agentName}</span>
             </div>
             <div className="col-span-2 text-gray-400">{agent.template}</div>
             <div className="col-span-2">{agent.schedule}</div>

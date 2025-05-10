@@ -8,10 +8,12 @@ import {
   Plus,
   Bot,
 } from "lucide-react";
+import { useContext } from "react";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import AiChatbotCard from "./AiChatbotCard";
 import LogsModal from "./LogsModal";
+import { AgentContext } from "../context/agent/agentContext";
 
 function Chatbot() {
   const navigate = useNavigate();
@@ -32,6 +34,8 @@ function Chatbot() {
   const [isThinking, setIsThinking] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [responseIndex, setResponseIndex] = useState(0);
+
+  const { agents, setAgents } = useContext(AgentContext);
 
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -97,6 +101,23 @@ function Chatbot() {
           }),
         };
         setMessages((prev) => [...prev, logMessage]);
+        const newAgentObject = {
+          agentName: "Acme Invoice Matcher",
+          template: "Matching",
+          schedule: "Hourly",
+          lastRun: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+          nextRun: "NULL",
+          status: "Pending",
+        };
+        // Update agents by appending the new agent to the array
+        setAgents((prev) => {
+          const updatedAgents = [...prev, newAgentObject];
+          localStorage.setItem("agents", JSON.stringify(updatedAgents));
+          return updatedAgents;
+        });
       }}
     />,
   ];
