@@ -37,7 +37,7 @@ const WorkflowResults = () => {
   const agentData = [
     {
       id: 1,
-      name: "Acme Invoice Matcher Agent 1",
+      name: "Acme Invoice Matcher ",
       extractions: pdfDataLength,
       consistency: {
         Total: 24,
