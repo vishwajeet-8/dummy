@@ -7,7 +7,7 @@ import DataAgents from "./components/DataAgents";
 import WorkflowResults from "./components/WorkflowResults";
 import Chatbot from "./components/Chatbot";
 import WorkflowData from "./components/WorkflowData";
-import Logs from "./components/logsFile/Logs.js";
+import Logs from "./components/LogsBar/Logs.js";
 import { BarProvider } from "./context/bar/BarProvider";
 import { AgentProvider } from "./context/agent/AgentProvider";
 
