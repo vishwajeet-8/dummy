@@ -1,4 +1,4 @@
-import ProgressBar from "./logs/ProgressBar";
+import ProgressBar from "./logsFile/ProgressBar";
 import { useNavigate } from "react-router-dom";
 
 const LogsModal = () => {
