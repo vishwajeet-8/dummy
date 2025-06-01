@@ -18,7 +18,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "../components/card/Index";
+} from "../components/card/Index.jsx";
 import {
   DropdownMenu,
   DropdownMenuContent,
