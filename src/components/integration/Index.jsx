@@ -24,7 +24,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { Button } from "../Button/Index";
-import { Card } from "../card/Index";
+import { Card } from "../card/Index.jsx";
 import { Input } from "../Input/Index";
 import {
   Sheet,

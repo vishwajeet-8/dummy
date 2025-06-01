@@ -13,18 +13,12 @@ import {
   BookOpen,
   ArrowLeft,
 } from "lucide-react";
-// import {
-//   Card,
-//   CardContent,
-//   CardHeader,
-//   CardTitle,
-// } from "../components/card/Index.jsx";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "../components/card/Index";
+} from "../components/card/Index.jsx";
 import {
   DropdownMenu,
   DropdownMenuContent,
