@@ -18,7 +18,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "../components/card/index";
+} from "../components/card/Index";
 import {
   DropdownMenu,
   DropdownMenuContent,
