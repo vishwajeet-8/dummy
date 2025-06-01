@@ -24,7 +24,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../components/dropdown-menu";
+} from "../components/dropdown-menu/Index";
 import { Dialog } from "@mui/material";
 import ExternalIntegrations from "../components/integration/Index";
 const WorkflowImport = () => {
