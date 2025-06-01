@@ -11,7 +11,7 @@ import {
   Menu,
   X,
 } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Sidebar = () => {
   const [isProfileExpanded, setIsProfileExpanded] = useState(false);
@@ -90,7 +90,7 @@ const Sidebar = () => {
 
         {/* Menu items */}
         <div className="">
-          <div className="flex items-center">
+          <Link to="/" className="flex items-center">
             <img
               src="/logo.png"
               alt=""
@@ -105,7 +105,7 @@ const Sidebar = () => {
                 AI Data Brain for Factories
               </p>
             </div>
-          </div>
+          </Link>
           <div className="space-y-1">
             {menuItems.map((item) => (
               <NavLink

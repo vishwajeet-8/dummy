@@ -11,8 +11,8 @@ import {
 import { useContext } from "react";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import AiChatbotCard from "./AiChatbotCard";
-import LogsModal from "./LogsModal";
+import AiChatbotCard from "../components/AiChatbotCard";
+import LogsModal from "../components/LogsModal";
 import { AgentContext } from "../context/agent/agentContext";
 
 function Chatbot() {
